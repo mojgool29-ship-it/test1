@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Real Gifts - Призы за звёзды</title>
+    <title>Telegram Stars Lottery</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="frame-ancestors https://web.telegram.org;">
@@ -28,7 +28,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .logo {
@@ -47,21 +47,21 @@
             font-size: 16px;
         }
 
-        /* Балланс звёзд */
-        .balance-card {
+        /* Баланс Stars */
+        .balance-section {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 25px;
             margin-bottom: 20px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .stars-count {
-            font-size: 36px;
+        .stars-balance {
+            font-size: 42px;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -70,51 +70,131 @@
 
         .star-icon {
             color: #FFD700;
-            font-size: 32px;
+            font-size: 36px;
+            animation: glow 2s infinite;
         }
 
-        .buy-stars-button {
+        @keyframes glow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        /* Панель ставок */
+        .bet-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .bet-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .bet-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .bet-amount {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bet-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .bet-button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .bet-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .bet-presets {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .bet-preset {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .bet-preset:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .bet-preset.active {
             background: linear-gradient(135deg, #FFD700, #FFA500);
             color: #333;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
             font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
         }
 
-        /* Игровой автомат */
-        .slot-machine {
-            background: rgba(255, 255, 255, 0.1);
+        /* Лотерея */
+        .lottery-section {
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .slots-container {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 25px 0;
             perspective: 1000px;
         }
 
         .slot {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             transform-style: preserve-3d;
+            color: #333;
         }
 
         .slot.spinning {
@@ -155,14 +235,8 @@
             background: #666;
         }
 
-        .spin-cost {
-            font-size: 14px;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-
-        /* Реальный приз */
-        .real-prize {
+        /* Результат */
+        .result-section {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
             padding: 25px;
@@ -177,62 +251,39 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .prize-image {
-            width: 120px;
-            height: 120px;
-            background: white;
-            border-radius: 15px;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .result-emoji {
             font-size: 60px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
         }
 
-        .prize-title {
+        .result-title {
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
-        .prize-description {
+        .result-amount {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+
+        .result-description {
             opacity: 0.9;
-            margin-bottom: 15px;
             line-height: 1.4;
         }
 
-        .delivery-info {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            text-align: left;
-        }
-
-        .claim-button {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 25px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* Каталог призов */
-        .prizes-catalog {
+        /* Призы */
+        .prizes-section {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
         }
 
-        .catalog-title {
-            font-size: 20px;
+        .prizes-title {
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 15px;
             text-align: center;
@@ -241,80 +292,37 @@
         .prize-item {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             background: rgba(255, 255, 255, 0.05);
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 10px;
         }
 
-        .prize-item-emoji {
+        .prize-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .prize-emoji {
             font-size: 32px;
-            width: 50px;
-            text-align: center;
         }
 
-        .prize-item-info {
-            flex: 1;
-            margin-left: 15px;
-        }
-
-        .prize-item-name {
-            font-weight: bold;
+        .prize-details h4 {
             margin-bottom: 5px;
         }
 
-        .prize-item-price {
-            color: #FFD700;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* История выигрышей */
-        .history {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .history-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .history-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-prize {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .history-status {
+        .prize-details span {
             font-size: 12px;
-            padding: 3px 8px;
-            border-radius: 8px;
+            opacity: 0.8;
         }
 
-        .status-pending { background: rgba(255, 193, 7, 0.3); }
-        .status-shipped { background: rgba(33, 150, 243, 0.3); }
-        .status-delivered { background: rgba(76, 175, 80, 0.3); }
+        .prize-chance {
+            font-size: 14px;
+            color: #FFD700;
+            font-weight: bold;
+        }
 
         .notification {
             position: fixed;
@@ -328,72 +336,76 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             z-index: 1000;
             display: none;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">🎁</div>
-            <div class="title">Real Gifts</div>
-            <div class="subtitle">Выигрывай реальные призы за звёзды!</div>
+            <div class="logo">🎰</div>
+            <div class="title">Stars Lottery</div>
+            <div class="subtitle">Крути лотерею за Telegram Stars!</div>
         </div>
 
-        <!-- Балланс звёзд -->
-        <div class="balance-card">
-            <div>Ваш баланс</div>
-            <div class="stars-count">
+        <!-- Баланс Stars -->
+        <div class="balance-section">
+            <div class="balance-label">Ваш баланс Telegram Stars</div>
+            <div class="stars-balance">
                 <span class="star-icon">⭐</span>
-                <span id="starsBalance">100</span>
+                <span id="starsBalance">0</span>
             </div>
-            <button class="buy-stars-button" onclick="buyStars()">
-                Купить ещё звёзды
-            </button>
+            <div class="balance-label" id="balanceValue">~ 0.00 USD</div>
         </div>
 
-        <!-- Игровой автомат -->
-        <div class="slot-machine">
+        <!-- Панель ставок -->
+        <div class="bet-section">
+            <div class="bet-title">Размер ставки</div>
+            <div class="bet-controls">
+                <div class="bet-amount">
+                    <span>⭐</span>
+                    <span id="currentBet">10</span>
+                </div>
+                <div class="bet-buttons">
+                    <button class="bet-button" onclick="changeBet(-1)">-</button>
+                    <button class="bet-button" onclick="changeBet(1)">+</button>
+                </div>
+            </div>
+            <div class="bet-presets">
+                <button class="bet-preset" onclick="setBet(10)">10 ⭐</button>
+                <button class="bet-preset active" onclick="setBet(50)">50 ⭐</button>
+                <button class="bet-preset" onclick="setBet(100)">100 ⭐</button>
+            </div>
+        </div>
+
+        <!-- Лотерея -->
+        <div class="lottery-section">
             <div class="slots-container">
-                <div class="slot" id="slot1">?</div>
-                <div class="slot" id="slot2">?</div>
-                <div class="slot" id="slot3">?</div>
+                <div class="slot" id="slot1">⭐</div>
+                <div class="slot" id="slot2">⭐</div>
+                <div class="slot" id="slot3">⭐</div>
             </div>
 
-            <button class="spin-button" id="spinButton" onclick="spinSlots()">
+            <button class="spin-button" id="spinButton" onclick="startLottery()">
                 <span>🎰</span>
-                КРУТИТЬ ЗА 10 ЗВЁЗД
+                КРУТИТЬ ЗА <span id="betAmount">10</span> ⭐
             </button>
-            <div class="spin-cost">1 вращение = 10 звёзд</div>
         </div>
 
-        <!-- Реальный приз -->
-        <div class="real-prize" id="realPrize">
-            <div class="prize-image" id="prizeImage">🎁</div>
-            <div class="prize-title" id="prizeTitle">Поздравляем!</div>
-            <div class="prize-description" id="prizeDescription">Вы выиграли реальный приз!</div>
+        <!-- Результат -->
+        <div class="result-section" id="resultSection">
+            <div class="result-emoji" id="resultEmoji">🎉</div>
+            <div class="result-title" id="resultTitle">Поздравляем!</div>
+            <div class="result-amount" id="resultAmount">+50 ⭐</div>
+            <div class="result-description" id="resultDescription">Вы выиграли Stars!</div>
+        </div>
 
-            <div class="delivery-info">
-                <strong>Доставка:</strong><br>
-                • Приз будет доставлен в течение 7 дней<br>
-                • Укажите адрес доставки в заявке<br>
-                • Отслеживание в личном кабинете
+        <!-- Призы -->
+        <div class="prizes-section">
+            <div class="prizes-title">Возможные выигрыши</div>
+            <div id="prizesList">
+                <!-- Призы будут загружены через JavaScript -->
             </div>
-
-            <button class="claim-button" onclick="claimPrize()">
-                🎯 ПОЛУЧИТЬ ПРИЗ
-            </button>
-        </div>
-
-        <!-- Каталог призов -->
-        <div class="prizes-catalog">
-            <div class="catalog-title">Возможные призы</div>
-            <div id="prizesList"></div>
-        </div>
-
-        <!-- История выигрышей -->
-        <div class="history">
-            <div class="history-title">Мои выигрыши</div>
-            <div id="historyList"></div>
         </div>
     </div>
 
@@ -404,288 +416,167 @@
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
-        // База реальных призов
-        const realPrizes = [
-            {
-                id: 1,
-                emoji: "🧸",
-                name: "Плюшевый мишка",
-                description: "Мягкий плюшевый мишка 30см",
-                image: "🧸",
-                starsCost: 50,
-                delivery: "7-10 дней",
-                weight: "300г"
-            },
-            {
-                id: 2,
-                emoji: "🌹",
-                name: "Красная роза",
-                description: "Свежая красная роза в упаковке",
-                image: "🌹",
-                starsCost: 30,
-                delivery: "2-3 дня",
-                weight: "150г"
-            },
-            {
-                id: 3,
-                emoji: "📱",
-                name: "Чехол для телефона",
-                description: "Качественный чехол для iPhone/Android",
-                image: "📱",
-                starsCost: 80,
-                delivery: "5-7 дней",
-                weight: "100г"
-            },
-            {
-                id: 4,
-                emoji: "🎧",
-                name: "Наушники",
-                description: "Проводные наушники с хорошим звуком",
-                image: "🎧",
-                starsCost: 150,
-                delivery: "7-14 дней",
-                weight: "200г"
-            },
-            {
-                id: 5,
-                emoji: "⌚",
-                name: "Умные часы",
-                description: "Фитнес-браслет с трекером активности",
-                image: "⌚",
-                starsCost: 300,
-                delivery: "10-15 дней",
-                weight: "50г"
-            },
-            {
-                id: 6,
-                emoji: "📚",
-                name: "Книга",
-                description: "Бестселлер в твёрдом переплёте",
-                image: "📚",
-                starsCost: 120,
-                delivery: "5-8 дней",
-                weight: "500г"
-            },
-            {
-                id: 7,
-                emoji: "🍫",
-                name: "Шоколадный набор",
-                description: "Набор премиального шоколада",
-                image: "🍫",
-                starsCost: 40,
-                delivery: "3-5 дней",
-                weight: "250г"
-            },
-            {
-                id: 8,
-                emoji: "✏️",
-                name: "Набор ручек",
-                description: "Качественные гелевые ручки 6 цветов",
-                image: "✏️",
-                starsCost: 25,
-                delivery: "4-6 дней",
-                weight: "100г"
-            }
-        ];
-
-        // Состояние пользователя
-        let userData = {
-            stars: 100,
-            wins: [],
-            pendingPrizes: []
+        // Состояние приложения
+        let userState = {
+            starsBalance: 0,
+            currentBet: 10,
+            isSpinning: false
         };
 
-        let currentWin = null;
-        let isSpinning = false;
+        // Возможные призы (умножение ставки)
+        const prizes = [
+            { emoji: "🎉", multiplier: 5, chance: 5, name: "Джекпот", description: "5x от ставки" },
+            { emoji: "💰", multiplier: 3, chance: 15, name: "Крупный выигрыш", description: "3x от ставки" },
+            { emoji: "⭐", multiplier: 2, chance: 30, name: "Выигрыш", description: "2x от ставки" },
+            { emoji: "🔔", multiplier: 1.5, chance: 25, name: "Мелкий выигрыш", description: "1.5x от ставки" },
+            { emoji: "⚡", multiplier: 1.2, chance: 15, name: "Минимальный выигрыш", description: "1.2x от ставки" },
+            { emoji: "💸", multiplier: 0, chance: 10, name: "Проигрыш", description: "Ставка не возвращается" }
+        ];
 
-        // Загрузка данных
-        function loadUserData() {
-            const saved = localStorage.getItem('realgifts_userdata');
-            if (saved) {
-                userData = JSON.parse(saved);
+        // Загрузка баланса Stars из Telegram
+        function loadStarsBalance() {
+            // В реальном приложении здесь будет запрос к Telegram API
+            // Для демо используем случайный баланс
+            const demoBalance = Math.floor(Math.random() * 1000);
+            userState.starsBalance = demoBalance;
+            updateBalanceDisplay();
+        }
+
+        // Обновление отображения баланса
+        function updateBalanceDisplay() {
+            document.getElementById('starsBalance').textContent = userState.starsBalance;
+            document.getElementById('balanceValue').textContent = `~ ${(userState.starsBalance * 0.01).toFixed(2)} USD`;
+            updateSpinButton();
+        }
+
+        // Изменение ставки
+        function changeBet(amount) {
+            const newBet = userState.currentBet + amount;
+            if (newBet >= 10 && newBet <= 1000) {
+                userState.currentBet = newBet;
+                updateBetDisplay();
             }
-            updateUI();
         }
 
-        // Сохранение данных
-        function saveUserData() {
-            localStorage.setItem('realgifts_userdata', JSON.stringify(userData));
+        // Установка фиксированной ставки
+        function setBet(amount) {
+            userState.currentBet = amount;
+            updateBetDisplay();
+
+            // Обновляем активную кнопку
+            document.querySelectorAll('.bet-preset').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
         }
 
-        // Кручение слотов
-        function spinSlots() {
-            if (isSpinning) return;
+        // Обновление отображения ставки
+        function updateBetDisplay() {
+            document.getElementById('currentBet').textContent = userState.currentBet;
+            document.getElementById('betAmount').textContent = userState.currentBet;
+            updateSpinButton();
+        }
 
-            if (userData.stars < 10) {
-                showNotification('Недостаточно звёзд! Купите ещё.');
+        // Обновление кнопки вращения
+        function updateSpinButton() {
+            const button = document.getElementById('spinButton');
+            button.disabled = userState.isSpinning || userState.starsBalance < userState.currentBet;
+        }
+
+        // Запуск лотереи
+        function startLottery() {
+            if (userState.isSpinning) return;
+
+            if (userState.starsBalance < userState.currentBet) {
+                showNotification('❌ Недостаточно Stars! Пополните баланс.');
                 return;
             }
 
-            isSpinning = true;
-            userData.stars -= 10;
-            document.getElementById('spinButton').disabled = true;
+            // Списываем Stars
+            userState.starsBalance -= userState.currentBet;
+            userState.isSpinning = true;
+            updateBalanceDisplay();
 
             // Анимация вращения
             const slots = document.querySelectorAll('.slot');
             slots.forEach(slot => slot.classList.add('spinning'));
 
-            // Случайный выигрыш (30% шанс)
-            const isWin = Math.random() < 0.3;
-            const randomPrize = isWin ? realPrizes[Math.floor(Math.random() * realPrizes.length)] : null;
-
+            // Определяем результат через 2 секунды
             setTimeout(() => {
-                slots.forEach(slot => slot.classList.remove('spinning'));
-
-                if (isWin && randomPrize) {
-                    showWin(randomPrize);
-                } else {
-                    showLose();
-                }
-
-                saveUserData();
-                updateUI();
+                const result = getLotteryResult();
+                showResult(result);
+                userState.isSpinning = false;
+                updateBalanceDisplay();
             }, 2000);
         }
 
-        // Показать выигрыш
-        function showWin(prize) {
-            currentWin = prize;
+        // Определение результата лотереи
+        function getLotteryResult() {
+            const random = Math.random() * 100;
+            let accumulatedChance = 0;
 
-            // Добавляем в историю
-            userData.wins.unshift({
-                ...prize,
-                date: new Date().toLocaleDateString('ru-RU'),
-                status: 'pending'
-            });
-
-            document.getElementById('prizeImage').textContent = prize.image;
-            document.getElementById('prizeTitle').textContent = `Поздравляем! Вы выиграли: ${prize.name}`;
-            document.getElementById('prizeDescription').textContent = prize.description;
-
-            document.getElementById('realPrize').style.display = 'block';
-            showNotification(`🎉 Вы выиграли ${prize.name}!`);
-        }
-
-        // Показать проигрыш
-        function showLose() {
-            showNotification('Повезёт в следующий раз! Попробуйте ещё 🍀');
-            isSpinning = false;
-            document.getElementById('spinButton').disabled = false;
-        }
-
-        // Получить приз
-        function claimPrize() {
-            if (!currentWin) return;
-
-            // Здесь интеграция с API доставки
-            showNotification(`✅ Заявка на ${currentWin.name} отправлена!`);
-
-            // Обновляем статус
-            const winIndex = userData.wins.findIndex(win =>
-                win.id === currentWin.id && win.status === 'pending'
-            );
-            if (winIndex !== -1) {
-                userData.wins[winIndex].status = 'claimed';
+            for (const prize of prizes) {
+                accumulatedChance += prize.chance;
+                if (random <= accumulatedChance) {
+                    return prize;
+                }
             }
 
-            document.getElementById('realPrize').style.display = 'none';
-            currentWin = null;
-            isSpinning = false;
-            document.getElementById('spinButton').disabled = false;
-
-            saveUserData();
-            updateUI();
+            return prizes[prizes.length - 1]; // Проигрыш
         }
 
-        // Покупка звёзд
-        function buyStars() {
-            // В реальном приложении здесь будет интеграция с платежной системой Telegram
-            const starsPackages = [
-                { amount: 50, price: 99 },
-                { amount: 100, price: 179 },
-                { amount: 200, price: 299 }
-            ];
+        // Показать результат
+        function showResult(prize) {
+            const winAmount = Math.floor(userState.currentBet * prize.multiplier);
 
-            // Симуляция покупки (в реальности - Telegram Payments)
-            const packageIndex = Math.floor(Math.random() * starsPackages.length);
-            const selectedPackage = starsPackages[packageIndex];
+            if (prize.multiplier > 0) {
+                userState.starsBalance += winAmount;
+                showNotification(`🎉 Вы выиграли ${winAmount} Stars!`);
+            }
 
-            userData.stars += selectedPackage.amount;
-            showNotification(`✅ Куплено ${selectedPackage.amount} звёзд!`);
+            document.getElementById('resultEmoji').textContent = prize.emoji;
+            document.getElementById('resultTitle').textContent = prize.name;
+            document.getElementById('resultAmount').textContent = prize.multiplier > 0 ? `+${winAmount} ⭐` : '0 ⭐';
+            document.getElementById('resultDescription').textContent = prize.description;
 
-            saveUserData();
-            updateUI();
+            // Останавливаем анимацию слотов
+            const slots = document.querySelectorAll('.slot');
+            slots.forEach(slot => {
+                slot.classList.remove('spinning');
+                slot.textContent = prize.emoji;
+            });
+
+            // Показываем результат
+            document.getElementById('resultSection').style.display = 'block';
+
+            // Через 3 секунды скрываем результат
+            setTimeout(() => {
+                document.getElementById('resultSection').style.display = 'none';
+                slots.forEach(slot => slot.textContent = '⭐');
+            }, 3000);
         }
 
-        // Обновление интерфейса
-        function updateUI() {
-            document.getElementById('starsBalance').textContent = userData.stars;
-            document.getElementById('spinButton').disabled = userData.stars < 10 || isSpinning;
-
-            // Обновляем каталог призов
-            updatePrizesCatalog();
-
-            // Обновляем историю
-            updateHistory();
-        }
-
-        // Каталог призов
-        function updatePrizesCatalog() {
+        // Загрузка списка призов
+        function loadPrizesList() {
             const prizesList = document.getElementById('prizesList');
             prizesList.innerHTML = '';
 
-            realPrizes.forEach(prize => {
+            prizes.forEach(prize => {
                 const item = document.createElement('div');
                 item.className = 'prize-item';
+
                 item.innerHTML = `
-                    <div class="prize-item-emoji">${prize.emoji}</div>
-                    <div class="prize-item-info">
-                        <div class="prize-item-name">${prize.name}</div>
-                        <div class="prize-item-price">
-                            <span>⭐</span> ${prize.starsCost} звёзд
+                    <div class="prize-info">
+                        <div class="prize-emoji">${prize.emoji}</div>
+                        <div class="prize-details">
+                            <h4>${prize.name}</h4>
+                            <span>${prize.description}</span>
                         </div>
                     </div>
+                    <div class="prize-chance">${prize.chance}%</div>
                 `;
+
                 prizesList.appendChild(item);
-            });
-        }
-
-        // История выигрышей
-        function updateHistory() {
-            const historyList = document.getElementById('historyList');
-            historyList.innerHTML = '';
-
-            if (userData.wins.length === 0) {
-                historyList.innerHTML = '<div style="text-align: center; opacity: 0.7;">Пока нет выигрышей</div>';
-                return;
-            }
-
-            userData.wins.slice(0, 5).forEach(win => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-
-                let statusText = 'Ожидание';
-                let statusClass = 'status-pending';
-
-                if (win.status === 'claimed') {
-                    statusText = 'Отправлен';
-                    statusClass = 'status-shipped';
-                } else if (win.status === 'delivered') {
-                    statusText = 'Доставлен';
-                    statusClass = 'status-delivered';
-                }
-
-                item.innerHTML = `
-                    <div class="history-prize">
-                        <span>${win.emoji}</span>
-                        <div>
-                            <div>${win.name}</div>
-                            <div style="font-size: 12px; opacity: 0.7;">${win.date}</div>
-                        </div>
-                    </div>
-                    <div class="history-status ${statusClass}">${statusText}</div>
-                `;
-                historyList.appendChild(item);
             });
         }
 
@@ -700,6 +591,36 @@
             }, 3000);
         }
 
+        // Интеграция с Telegram Stars API
+        function initTelegramStars() {
+            // Получаем баланс пользователя
+            if (Telegram.WebApp.initDataUnsafe?.user) {
+                // В реальном приложении здесь будет запрос к Telegram API
+                console.log('User data:', Telegram.WebApp.initDataUnsafe.user);
+            }
+
+            // Обработка платежей
+            Telegram.WebApp.onEvent('invoiceClosed', (event) => {
+                if (event.status === 'paid') {
+                    showNotification('✅ Stars успешно пополнены!');
+                    loadStarsBalance(); // Перезагружаем баланс
+                }
+            });
+        }
+
+        // Пополнение баланса через Telegram Payments
+        function addStars() {
+            // В реальном приложении здесь будет вызов Telegram Payments
+            showNotification('🔄 Открывается окно оплаты...');
+
+            // Демо-пополнение
+            setTimeout(() => {
+                userState.starsBalance += 100;
+                updateBalanceDisplay();
+                showNotification('✅ +100 Stars зачислены на баланс!');
+            }, 1000);
+        }
+
         // Адаптация темы
         function updateTheme() {
             if (Telegram.WebApp.colorScheme === 'dark') {
@@ -708,27 +629,30 @@
         }
 
         // Инициализация
-        loadUserData();
+        loadStarsBalance();
+        loadPrizesList();
         updateTheme();
+
         Telegram.WebApp.onEvent('themeChanged', updateTheme);
+        Telegram.WebApp.onEvent('viewportChanged', updateTheme);
 
-        // Интеграция с Telegram (пример)
-        function initTelegramIntegration() {
-            // Получение данных пользователя
-            const user = Telegram.WebApp.initDataUnsafe?.user;
-            if (user) {
-                console.log('User:', user);
-            }
-
-            // Готовность к платежам
-            Telegram.WebApp.onEvent('invoiceClosed', (event) => {
-                if (event.status === 'paid') {
-                    showNotification('Платёж успешно завершён!');
-                }
-            });
-        }
-
-        initTelegramIntegration();
+        // Добавляем кнопку пополнения в баланс-секцию
+        const balanceSection = document.querySelector('.balance-section');
+        const addButton = document.createElement('button');
+        addButton.innerHTML = '💳 Пополнить баланс';
+        addButton.style = `
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        `;
+        addButton.onclick = addStars;
+        balanceSection.appendChild(addButton);
     </script>
 </body>
 </html>
