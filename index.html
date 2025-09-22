@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Burger Emoji Shop</title>
+    <title>Random Gift Bot</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="frame-ancestors https://web.telegram.org;">
@@ -12,109 +12,207 @@
             padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            color: white;
             text-align: center;
         }
 
-        .white-block {
+        .container {
             width: 100%;
-            max-width: 320px;
-            background-color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            border-radius: 16px;
-            padding: 30px 20px;
-            margin-bottom: 20px;
+            max-width: 400px;
         }
 
-        .burger-emoji {
-            font-size: 80px;
-            margin: 20px 0;
-            display: block;
-        }
-
-        .emoji-title {
-            font-size: 24px;
+        .title {
+            font-size: 28px;
             font-weight: bold;
-            margin: 10px 0;
-            color: #333;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .emoji-description {
+        .subtitle {
             font-size: 16px;
-            color: #666;
-            margin: 10px 0 20px 0;
-            line-height: 1.4;
+            margin-bottom: 30px;
+            opacity: 0.9;
         }
 
-        .price {
-            font-size: 20px;
-            font-weight: bold;
-            color: #E44D26;
-            margin: 15px 0;
+        .slot-machine {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .buy-button {
-            background: linear-gradient(135deg, #E44D26, #F16529);
-            color: white;
+        .slots-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            perspective: 1000px;
+        }
+
+        .slot {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .slot.spinning {
+            animation: spin 0.1s infinite linear;
+        }
+
+        @keyframes spin {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(360deg); }
+        }
+
+        .spin-button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 18px 40px;
+            font-size: 20px;
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            margin: 10px 0;
-            box-shadow: 0 4px 8px rgba(228, 77, 38, 0.3);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
             transition: all 0.3s ease;
-            width: 100%;
-            max-width: 200px;
-        }
-
-        .buy-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(228, 77, 38, 0.4);
-        }
-
-        .buy-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(228, 77, 38, 0.3);
-        }
-
-        .features {
-            text-align: left;
             margin: 20px 0;
-            font-size: 14px;
-            color: #555;
+            width: 100%;
+            max-width: 250px;
         }
 
-        .features li {
-            margin: 8px 0;
-            padding-left: 5px;
+        .spin-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+        }
+
+        .spin-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .spin-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .prize-emoji {
+            font-size: 50px;
+            margin: 10px 0;
+        }
+
+        .prize-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .prize-description {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .attempts {
+            font-size: 14px;
+            margin: 10px 0;
+            opacity: 0.8;
+        }
+
+        .history {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-emoji {
+            font-size: 20px;
+        }
+
+        .history-prize {
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <div class="white-block">
-        <span class="burger-emoji">🍔</span>
-        <div class="emoji-title">Burger Emoji</div>
-        <div class="emoji-description">Премиальный смайлик бургера для ваших чатов</div>
-        <div class="price">99 ₽</div>
-    </div>
+    <div class="container">
+        <div class="title">🎁 Случайный Подарок</div>
+        <div class="subtitle">Крути слоты и выигрывай призы!</div>
 
-    <button class="buy-button" onclick="buyEmoji()">КУПИТЬ</button>
+        <div class="slot-machine">
+            <div class="slots-container">
+                <div class="slot" id="slot1">🎮</div>
+                <div class="slot" id="slot2">🎯</div>
+                <div class="slot" id="slot3">🎨</div>
+            </div>
 
-    <div class="white-block">
-        <div class="features">
-            <strong>Особенности смайлика:</strong>
-            <ul>
-                <li>Высокое качество изображения</li>
-                <li>Подходит для всех платформ</li>
-                <li>Безлимитное использование</li>
-                <li>Автоматическое обновление</li>
-            </ul>
+            <button class="spin-button" id="spinButton" onclick="spinSlots()">
+                🎰 КРУТИТЬ! 🎰
+            </button>
+
+            <div class="attempts">Попыток сегодня: <span id="attemptsCount">3</span></div>
+        </div>
+
+        <div class="result" id="result">
+            <div class="prize-emoji" id="prizeEmoji">🎁</div>
+            <div class="prize-text" id="prizeText">Поздравляем!</div>
+            <div class="prize-description" id="prizeDescription">Вы выиграли подарок!</div>
+        </div>
+
+        <div class="history">
+            <div class="history-title">История выигрышей</div>
+            <div id="historyList"></div>
         </div>
     </div>
 
@@ -123,37 +221,117 @@
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
-        function buyEmoji() {
-            // В реальном приложении здесь будет вызов Telegram Mini Apps API для платежей
-            alert('Спасибо за покупку! Смайлик 🍔 добавлен в вашу коллекцию!');
+        // Список возможных призов
+        const prizes = [
+            { emoji: "🎮", name: "Игровая консоль", description: "Виртуальная игровая приставка", rarity: "rare" },
+            { emoji: "🎯", name: "Дартс", description: "Набор для метания дротиков", rarity: "common" },
+            { emoji: "🎨", name: "Набор художника", description: "Профессиональные кисти и краски", rarity: "uncommon" },
+            { emoji: "🎸", name: "Гитара", description: "Электрогитара для рок-звезды", rarity: "rare" },
+            { emoji: "🏆", name: "Кубок чемпиона", description: "Золотой трофей победителя", rarity: "epic" },
+            { emoji: "📱", name: "Смартфон", description: "Новейшая модель телефона", rarity: "epic" },
+            { emoji: "💎", name: "Алмаз", description: "Драгоценный камень", rarity: "legendary" },
+            { emoji: "🚗", name: "Спорткар", description: "Роскошный автомобиль", rarity: "legendary" },
+            { emoji: "🎪", name: "Цирк", description: "Билеты на цирковое шоу", rarity: "uncommon" },
+            { emoji: "🎭", name: "Театр", description: "Приглашение на премьеру", rarity: "common" }
+        ];
 
-            // Пример интеграции с Telegram Payments (закомментировано для демо)
-            /*
-            Telegram.WebApp.openInvoice(
-                'your_invoice_link_here',
-                function(status) {
-                    if (status === 'paid') {
-                        alert('Покупка успешно завершена!');
-                    }
-                }
-            );
-            */
+        let attempts = 3;
+        let isSpinning = false;
+        let history = [];
+
+        function spinSlots() {
+            if (isSpinning || attempts <= 0) return;
+
+            isSpinning = true;
+            attempts--;
+            document.getElementById('attemptsCount').textContent = attempts;
+            document.getElementById('spinButton').disabled = true;
+            document.getElementById('result').classList.remove('show');
+
+            // Запускаем анимацию слотов
+            const slots = document.querySelectorAll('.slot');
+            slots.forEach(slot => slot.classList.add('spinning'));
+
+            // Случайный выбор приза
+            const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+
+            // Останавливаем слоты через 2 секунды
+            setTimeout(() => {
+                slots.forEach(slot => slot.classList.remove('spinning'));
+
+                // Показываем выигрыш
+                setTimeout(() => showResult(randomPrize), 500);
+            }, 2000);
+        }
+
+        function showResult(prize) {
+            const resultDiv = document.getElementById('result');
+            document.getElementById('prizeEmoji').textContent = prize.emoji;
+            document.getElementById('prizeText').textContent = prize.name;
+            document.getElementById('prizeDescription').textContent = prize.description;
+
+            // Добавляем в историю
+            addToHistory(prize);
+
+            // Показываем результат
+            resultDiv.classList.add('show');
+
+            // Восстанавливаем кнопку, если есть попытки
+            if (attempts > 0) {
+                isSpinning = false;
+                document.getElementById('spinButton').disabled = false;
+            }
+
+            // Отправляем результат в Telegram (опционально)
+            sendToTelegram(prize);
+        }
+
+        function addToHistory(prize) {
+            history.unshift(prize);
+            if (history.length > 5) history.pop();
+
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = '';
+
+            history.forEach((item, index) => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <span class="history-emoji">${item.emoji}</span>
+                    <span class="history-prize">${item.name}</span>
+                    <span class="history-date">${new Date().toLocaleTimeString()}</span>
+                `;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        function sendToTelegram(prize) {
+            // Здесь можно отправить данные в Telegram бота
+            // Например, через Telegram.WebApp.sendData()
+            console.log('Выигрыш:', prize);
+
+            // Пример отправки данных боту
+            // Telegram.WebApp.sendData(JSON.stringify({
+            //     type: 'prize_won',
+            //     prize: prize.name,
+            //     emoji: prize.emoji
+            // }));
         }
 
         // Адаптация под тему Telegram
         function updateTheme() {
             if (Telegram.WebApp.colorScheme === 'dark') {
-                document.body.style.backgroundColor = '#1c1c1c';
-                document.body.style.color = '#ffffff';
+                document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)';
             } else {
-                document.body.style.backgroundColor = '#f0f0f0';
-                document.body.style.color = '#000000';
+                document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             }
         }
 
         updateTheme();
         Telegram.WebApp.onEvent('themeChanged', updateTheme);
+
+        // Инициализация истории
+        addToHistory();
     </script>
 </body>
 </html>
-
