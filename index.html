@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Random Gift - Ежедневные призы</title>
+    <title>Real Gifts - Призы за звёзды</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="frame-ancestors https://web.telegram.org;">
@@ -28,7 +28,7 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .logo {
@@ -47,40 +47,88 @@
             font-size: 16px;
         }
 
-        .gift-box {
+        /* Балланс звёзд */
+        .balance-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stars-count {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .star-icon {
+            color: #FFD700;
+            font-size: 32px;
+        }
+
+        .buy-stars-button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        /* Игровой автомат */
+        .slot-machine {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
         }
 
-        .gift-emoji {
-            font-size: 80px;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .slots-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            perspective: 1000px;
         }
 
-        .gift-emoji:hover {
-            transform: scale(1.1);
+        .slot {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transform-style: preserve-3d;
         }
 
-        .gift-emoji.shake {
-            animation: shake 0.5s ease-in-out;
+        .slot.spinning {
+            animation: spin 0.1s infinite linear;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+        @keyframes spin {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(360deg); }
         }
 
-        .open-button {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #333;
+        .spin-button {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+            color: white;
             border: none;
             padding: 18px 30px;
             font-size: 18px;
@@ -88,32 +136,38 @@
             border-radius: 50px;
             cursor: pointer;
             width: 100%;
-            margin: 20px 0;
+            margin: 15px 0;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .open-button:hover {
+        .spin-button:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
         }
 
-        .open-button:disabled {
+        .spin-button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
+            background: #666;
         }
 
-        .timer {
+        .spin-cost {
             font-size: 14px;
             opacity: 0.8;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
-        .prize-reveal {
+        /* Реальный приз */
+        .real-prize {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 15px;
             padding: 25px;
             margin: 20px 0;
+            text-align: center;
             display: none;
             animation: fadeIn 0.5s ease;
         }
@@ -123,9 +177,17 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .prize-emoji {
+        .prize-image {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 60px;
-            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .prize-title {
@@ -137,52 +199,86 @@
         .prize-description {
             opacity: 0.9;
             margin-bottom: 15px;
+            line-height: 1.4;
         }
 
-        .prize-rarity {
-            display: inline-block;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .common { background: rgba(76, 175, 80, 0.3); }
-        .uncommon { background: rgba(33, 150, 243, 0.3); }
-        .rare { background: rgba(156, 39, 176, 0.3); }
-        .epic { background: rgba(255, 152, 0, 0.3); }
-        .legendary { background: rgba(244, 67, 54, 0.3); }
-
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .stat-card {
+        .delivery-info {
             background: rgba(255, 255, 255, 0.1);
             padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .claim-button {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Каталог призов */
+        .prizes-catalog {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .catalog-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
             text-align: center;
         }
 
-        .stat-value {
-            font-size: 24px;
+        .prize-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .prize-item-emoji {
+            font-size: 32px;
+            width: 50px;
+            text-align: center;
+        }
+
+        .prize-item-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .prize-item-name {
             font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.8;
+        .prize-item-price {
+            color: #FFD700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
+        /* История выигрышей */
         .history {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .history-title {
@@ -196,7 +292,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -204,31 +300,21 @@
             border-bottom: none;
         }
 
-        .history-emoji {
-            font-size: 24px;
-            width: 40px;
+        .history-prize {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .history-info {
-            flex: 1;
-            margin-left: 15px;
-        }
-
-        .history-name {
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-
-        .history-date {
+        .history-status {
             font-size: 12px;
-            opacity: 0.7;
+            padding: 3px 8px;
+            border-radius: 8px;
         }
 
-        .history-rarity {
-            font-size: 10px;
-            padding: 3px 10px;
-            border-radius: 10px;
-        }
+        .status-pending { background: rgba(255, 193, 7, 0.3); }
+        .status-shipped { background: rgba(33, 150, 243, 0.3); }
+        .status-delivered { background: rgba(76, 175, 80, 0.3); }
 
         .notification {
             position: fixed;
@@ -249,38 +335,64 @@
     <div class="container">
         <div class="header">
             <div class="logo">🎁</div>
-            <div class="title">Random Gift</div>
-            <div class="subtitle">Открывай подарки каждый день!</div>
+            <div class="title">Real Gifts</div>
+            <div class="subtitle">Выигрывай реальные призы за звёзды!</div>
         </div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="totalPrizes">0</div>
-                <div class="stat-label">Всего призов</div>
+        <!-- Балланс звёзд -->
+        <div class="balance-card">
+            <div>Ваш баланс</div>
+            <div class="stars-count">
+                <span class="star-icon">⭐</span>
+                <span id="starsBalance">100</span>
             </div>
-            <div class="stat-card">
-                <div class="stat-value" id="todayPrizes">1</div>
-                <div class="stat-label">Сегодня</div>
-            </div>
-        </div>
-
-        <div class="gift-box">
-            <div class="gift-emoji" id="giftEmoji" onclick="openGift()">🎁</div>
-            <button class="open-button" id="openButton" onclick="openGift()">
-                ОТКРЫТЬ ПОДАРОК
+            <button class="buy-stars-button" onclick="buyStars()">
+                Купить ещё звёзды
             </button>
-            <div class="timer" id="timer">До следующего подарка: 24:00:00</div>
         </div>
 
-        <div class="prize-reveal" id="prizeReveal">
-            <div class="prize-emoji" id="prizeEmoji">🎮</div>
-            <div class="prize-title" id="prizeTitle">Приз!</div>
-            <div class="prize-description" id="prizeDescription">Описание приза</div>
-            <div class="prize-rarity" id="prizeRarity">ОБЫЧНЫЙ</div>
+        <!-- Игровой автомат -->
+        <div class="slot-machine">
+            <div class="slots-container">
+                <div class="slot" id="slot1">?</div>
+                <div class="slot" id="slot2">?</div>
+                <div class="slot" id="slot3">?</div>
+            </div>
+
+            <button class="spin-button" id="spinButton" onclick="spinSlots()">
+                <span>🎰</span>
+                КРУТИТЬ ЗА 10 ЗВЁЗД
+            </button>
+            <div class="spin-cost">1 вращение = 10 звёзд</div>
         </div>
 
+        <!-- Реальный приз -->
+        <div class="real-prize" id="realPrize">
+            <div class="prize-image" id="prizeImage">🎁</div>
+            <div class="prize-title" id="prizeTitle">Поздравляем!</div>
+            <div class="prize-description" id="prizeDescription">Вы выиграли реальный приз!</div>
+
+            <div class="delivery-info">
+                <strong>Доставка:</strong><br>
+                • Приз будет доставлен в течение 7 дней<br>
+                • Укажите адрес доставки в заявке<br>
+                • Отслеживание в личном кабинете
+            </div>
+
+            <button class="claim-button" onclick="claimPrize()">
+                🎯 ПОЛУЧИТЬ ПРИЗ
+            </button>
+        </div>
+
+        <!-- Каталог призов -->
+        <div class="prizes-catalog">
+            <div class="catalog-title">Возможные призы</div>
+            <div id="prizesList"></div>
+        </div>
+
+        <!-- История выигрышей -->
         <div class="history">
-            <div class="history-title">История подарков</div>
+            <div class="history-title">Мои выигрыши</div>
             <div id="historyList"></div>
         </div>
     </div>
@@ -292,31 +404,103 @@
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
-        // База данных призов
-        const prizes = [
-            { emoji: "🎮", name: "Игровая консоль", description: "Виртуальная игровая приставка", rarity: "rare", rarityText: "РЕДКИЙ" },
-            { emoji: "📱", name: "Смартфон", description: "Новейшая модель телефона", rarity: "epic", rarityText: "ЭПИЧЕСКИЙ" },
-            { emoji: "💎", name: "Алмаз", description: "Драгоценный камень", rarity: "legendary", rarityText: "ЛЕГЕНДАРНЫЙ" },
-            { emoji: "🎯", name: "Дартс", description: "Набор для метания дротиков", rarity: "common", rarityText: "ОБЫЧНЫЙ" },
-            { emoji: "🎨", name: "Набор художника", description: "Профессиональные кисти", rarity: "uncommon", rarityText: "НЕОБЫЧНЫЙ" },
-            { emoji: "🏆", name: "Кубок чемпиона", description: "Золотой трофей победителя", rarity: "epic", rarityText: "ЭПИЧЕСКИЙ" },
-            { emoji: "✈️", name: "Путешествие", description: "Билеты в любую точку мира", rarity: "legendary", rarityText: "ЛЕГЕНДАРНЫЙ" },
-            { emoji: "💻", name: "Ноутбук", description: "Мощный игровой ноутбук", rarity: "rare", rarityText: "РЕДКИЙ" },
-            { emoji: "🎻", name: "Скрипка", description: "Музыкальный инструмент", rarity: "uncommon", rarityText: "НЕОБЫЧНЫЙ" },
-            { emoji: "📚", name: "Книги", description: "Коллекция лучших книг", rarity: "common", rarityText: "ОБЫЧНЫЙ" }
+        // База реальных призов
+        const realPrizes = [
+            {
+                id: 1,
+                emoji: "🧸",
+                name: "Плюшевый мишка",
+                description: "Мягкий плюшевый мишка 30см",
+                image: "🧸",
+                starsCost: 50,
+                delivery: "7-10 дней",
+                weight: "300г"
+            },
+            {
+                id: 2,
+                emoji: "🌹",
+                name: "Красная роза",
+                description: "Свежая красная роза в упаковке",
+                image: "🌹",
+                starsCost: 30,
+                delivery: "2-3 дня",
+                weight: "150г"
+            },
+            {
+                id: 3,
+                emoji: "📱",
+                name: "Чехол для телефона",
+                description: "Качественный чехол для iPhone/Android",
+                image: "📱",
+                starsCost: 80,
+                delivery: "5-7 дней",
+                weight: "100г"
+            },
+            {
+                id: 4,
+                emoji: "🎧",
+                name: "Наушники",
+                description: "Проводные наушники с хорошим звуком",
+                image: "🎧",
+                starsCost: 150,
+                delivery: "7-14 дней",
+                weight: "200г"
+            },
+            {
+                id: 5,
+                emoji: "⌚",
+                name: "Умные часы",
+                description: "Фитнес-браслет с трекером активности",
+                image: "⌚",
+                starsCost: 300,
+                delivery: "10-15 дней",
+                weight: "50г"
+            },
+            {
+                id: 6,
+                emoji: "📚",
+                name: "Книга",
+                description: "Бестселлер в твёрдом переплёте",
+                image: "📚",
+                starsCost: 120,
+                delivery: "5-8 дней",
+                weight: "500г"
+            },
+            {
+                id: 7,
+                emoji: "🍫",
+                name: "Шоколадный набор",
+                description: "Набор премиального шоколада",
+                image: "🍫",
+                starsCost: 40,
+                delivery: "3-5 дней",
+                weight: "250г"
+            },
+            {
+                id: 8,
+                emoji: "✏️",
+                name: "Набор ручек",
+                description: "Качественные гелевые ручки 6 цветов",
+                image: "✏️",
+                starsCost: 25,
+                delivery: "4-6 дней",
+                weight: "100г"
+            }
         ];
 
-        // Состояние приложения
+        // Состояние пользователя
         let userData = {
-            totalPrizes: 0,
-            lastOpen: null,
-            history: [],
-            todayOpened: false
+            stars: 100,
+            wins: [],
+            pendingPrizes: []
         };
 
-        // Загрузка данных пользователя
+        let currentWin = null;
+        let isSpinning = false;
+
+        // Загрузка данных
         function loadUserData() {
-            const saved = localStorage.getItem('randomgift_userdata');
+            const saved = localStorage.getItem('realgifts_userdata');
             if (saved) {
                 userData = JSON.parse(saved);
             }
@@ -325,138 +509,187 @@
 
         // Сохранение данных
         function saveUserData() {
-            localStorage.setItem('randomgift_userdata', JSON.stringify(userData));
+            localStorage.setItem('realgifts_userdata', JSON.stringify(userData));
         }
 
-        // Открытие подарка
-        function openGift() {
-            if (userData.todayOpened) {
-                showNotification('Вы уже открыли подарок сегодня!');
+        // Кручение слотов
+        function spinSlots() {
+            if (isSpinning) return;
+
+            if (userData.stars < 10) {
+                showNotification('Недостаточно звёзд! Купите ещё.');
                 return;
             }
 
-            // Анимация встряхивания подарка
-            const giftEmoji = document.getElementById('giftEmoji');
-            giftEmoji.classList.add('shake');
+            isSpinning = true;
+            userData.stars -= 10;
+            document.getElementById('spinButton').disabled = true;
+
+            // Анимация вращения
+            const slots = document.querySelectorAll('.slot');
+            slots.forEach(slot => slot.classList.add('spinning'));
+
+            // Случайный выигрыш (30% шанс)
+            const isWin = Math.random() < 0.3;
+            const randomPrize = isWin ? realPrizes[Math.floor(Math.random() * realPrizes.length)] : null;
 
             setTimeout(() => {
-                giftEmoji.classList.remove('shake');
-                revealPrize();
-            }, 500);
+                slots.forEach(slot => slot.classList.remove('spinning'));
+
+                if (isWin && randomPrize) {
+                    showWin(randomPrize);
+                } else {
+                    showLose();
+                }
+
+                saveUserData();
+                updateUI();
+            }, 2000);
         }
 
-        // Раскрытие приза
-        function revealPrize() {
-            const randomPrize = getRandomPrize();
+        // Показать выигрыш
+        function showWin(prize) {
+            currentWin = prize;
 
-            // Обновляем данные пользователя
-            userData.totalPrizes++;
-            userData.todayOpened = true;
-            userData.lastOpen = new Date().toISOString();
-            userData.history.unshift({
-                ...randomPrize,
-                date: new Date().toLocaleDateString('ru-RU')
+            // Добавляем в историю
+            userData.wins.unshift({
+                ...prize,
+                date: new Date().toLocaleDateString('ru-RU'),
+                status: 'pending'
             });
 
-            // Ограничиваем историю 10 записями
-            if (userData.history.length > 10) {
-                userData.history = userData.history.slice(0, 10);
-            }
+            document.getElementById('prizeImage').textContent = prize.image;
+            document.getElementById('prizeTitle').textContent = `Поздравляем! Вы выиграли: ${prize.name}`;
+            document.getElementById('prizeDescription').textContent = prize.description;
 
-            // Показываем приз
-            document.getElementById('prizeEmoji').textContent = randomPrize.emoji;
-            document.getElementById('prizeTitle').textContent = randomPrize.name;
-            document.getElementById('prizeDescription').textContent = randomPrize.description;
-            document.getElementById('prizeRarity').textContent = randomPrize.rarityText;
-            document.getElementById('prizeRarity').className = `prize-rarity ${randomPrize.rarity}`;
-
-            const prizeReveal = document.getElementById('prizeReveal');
-            prizeReveal.style.display = 'block';
-
-            // Обновляем UI
-            updateUI();
-            saveUserData();
-
-            // Отправляем в Telegram
-            sendToTelegram(randomPrize);
+            document.getElementById('realPrize').style.display = 'block';
+            showNotification(`🎉 Вы выиграли ${prize.name}!`);
         }
 
-        // Случайный выбор приза с учетом редкости
-        function getRandomPrize() {
-            const rand = Math.random();
-            let rarity;
+        // Показать проигрыш
+        function showLose() {
+            showNotification('Повезёт в следующий раз! Попробуйте ещё 🍀');
+            isSpinning = false;
+            document.getElementById('spinButton').disabled = false;
+        }
 
-            if (rand < 0.5) rarity = 'common';        // 50%
-            else if (rand < 0.75) rarity = 'uncommon'; // 25%
-            else if (rand < 0.90) rarity = 'rare';     // 15%
-            else if (rand < 0.98) rarity = 'epic';     // 8%
-            else rarity = 'legendary';                 // 2%
+        // Получить приз
+        function claimPrize() {
+            if (!currentWin) return;
 
-            const availablePrizes = prizes.filter(prize => prize.rarity === rarity);
-            return availablePrizes[Math.floor(Math.random() * availablePrizes.length)];
+            // Здесь интеграция с API доставки
+            showNotification(`✅ Заявка на ${currentWin.name} отправлена!`);
+
+            // Обновляем статус
+            const winIndex = userData.wins.findIndex(win =>
+                win.id === currentWin.id && win.status === 'pending'
+            );
+            if (winIndex !== -1) {
+                userData.wins[winIndex].status = 'claimed';
+            }
+
+            document.getElementById('realPrize').style.display = 'none';
+            currentWin = null;
+            isSpinning = false;
+            document.getElementById('spinButton').disabled = false;
+
+            saveUserData();
+            updateUI();
+        }
+
+        // Покупка звёзд
+        function buyStars() {
+            // В реальном приложении здесь будет интеграция с платежной системой Telegram
+            const starsPackages = [
+                { amount: 50, price: 99 },
+                { amount: 100, price: 179 },
+                { amount: 200, price: 299 }
+            ];
+
+            // Симуляция покупки (в реальности - Telegram Payments)
+            const packageIndex = Math.floor(Math.random() * starsPackages.length);
+            const selectedPackage = starsPackages[packageIndex];
+
+            userData.stars += selectedPackage.amount;
+            showNotification(`✅ Куплено ${selectedPackage.amount} звёзд!`);
+
+            saveUserData();
+            updateUI();
         }
 
         // Обновление интерфейса
         function updateUI() {
-            document.getElementById('totalPrizes').textContent = userData.totalPrizes;
-            document.getElementById('todayPrizes').textContent = userData.todayOpened ? '1' : '0';
+            document.getElementById('starsBalance').textContent = userData.stars;
+            document.getElementById('spinButton').disabled = userData.stars < 10 || isSpinning;
+
+            // Обновляем каталог призов
+            updatePrizesCatalog();
 
             // Обновляем историю
             updateHistory();
-
-            // Обновляем таймер и кнопку
-            updateTimer();
         }
 
-        // Обновление истории
+        // Каталог призов
+        function updatePrizesCatalog() {
+            const prizesList = document.getElementById('prizesList');
+            prizesList.innerHTML = '';
+
+            realPrizes.forEach(prize => {
+                const item = document.createElement('div');
+                item.className = 'prize-item';
+                item.innerHTML = `
+                    <div class="prize-item-emoji">${prize.emoji}</div>
+                    <div class="prize-item-info">
+                        <div class="prize-item-name">${prize.name}</div>
+                        <div class="prize-item-price">
+                            <span>⭐</span> ${prize.starsCost} звёзд
+                        </div>
+                    </div>
+                `;
+                prizesList.appendChild(item);
+            });
+        }
+
+        // История выигрышей
         function updateHistory() {
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '';
 
-            userData.history.forEach(prize => {
+            if (userData.wins.length === 0) {
+                historyList.innerHTML = '<div style="text-align: center; opacity: 0.7;">Пока нет выигрышей</div>';
+                return;
+            }
+
+            userData.wins.slice(0, 5).forEach(win => {
                 const item = document.createElement('div');
                 item.className = 'history-item';
+
+                let statusText = 'Ожидание';
+                let statusClass = 'status-pending';
+
+                if (win.status === 'claimed') {
+                    statusText = 'Отправлен';
+                    statusClass = 'status-shipped';
+                } else if (win.status === 'delivered') {
+                    statusText = 'Доставлен';
+                    statusClass = 'status-delivered';
+                }
+
                 item.innerHTML = `
-                    <div class="history-emoji">${prize.emoji}</div>
-                    <div class="history-info">
-                        <div class="history-name">${prize.name}</div>
-                        <div class="history-date">${prize.date}</div>
+                    <div class="history-prize">
+                        <span>${win.emoji}</span>
+                        <div>
+                            <div>${win.name}</div>
+                            <div style="font-size: 12px; opacity: 0.7;">${win.date}</div>
+                        </div>
                     </div>
-                    <div class="history-rarity ${prize.rarity}">${prize.rarityText}</div>
+                    <div class="history-status ${statusClass}">${statusText}</div>
                 `;
                 historyList.appendChild(item);
             });
         }
 
-        // Таймер до следующего подарка
-        function updateTimer() {
-            const timerElement = document.getElementById('timer');
-            const openButton = document.getElementById('openButton');
-
-            if (userData.todayOpened) {
-                openButton.disabled = true;
-                openButton.textContent = 'УЖЕ ОТКРЫТО СЕГОДНЯ';
-
-                // Расчет времени до следующего дня
-                const now = new Date();
-                const tomorrow = new Date(now);
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow.setHours(0, 0, 0, 0);
-
-                const diff = tomorrow - now;
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                timerElement.textContent = `До следующего подарка: ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            } else {
-                openButton.disabled = false;
-                openButton.textContent = 'ОТКРЫТЬ ПОДАРОК';
-                timerElement.textContent = 'Подарок готов к открытию!';
-            }
-        }
-
-        // Уведомление
+        // Уведомления
         function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -465,34 +698,6 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
-        }
-
-        // Отправка в Telegram
-        function sendToTelegram(prize) {
-            // Здесь можно интегрировать с Telegram Bot API
-            console.log('Приз открыт:', prize);
-
-            // Пример отправки данных
-            if (Telegram.WebApp.sendData) {
-                Telegram.WebApp.sendData(JSON.stringify({
-                    action: 'prize_opened',
-                    prize: prize.name,
-                    rarity: prize.rarity,
-                    emoji: prize.emoji
-                }));
-            }
-        }
-
-        // Проверка смены дня
-        function checkDayChange() {
-            const today = new Date().toDateString();
-            const lastOpenDate = userData.lastOpen ? new Date(userData.lastOpen).toDateString() : null;
-
-            if (lastOpenDate !== today) {
-                userData.todayOpened = false;
-                saveUserData();
-                updateUI();
-            }
         }
 
         // Адаптация темы
@@ -507,11 +712,23 @@
         updateTheme();
         Telegram.WebApp.onEvent('themeChanged', updateTheme);
 
-        // Обновление таймера каждую секунду
-        setInterval(updateTimer, 1000);
+        // Интеграция с Telegram (пример)
+        function initTelegramIntegration() {
+            // Получение данных пользователя
+            const user = Telegram.WebApp.initDataUnsafe?.user;
+            if (user) {
+                console.log('User:', user);
+            }
 
-        // Проверка смены дня каждую минуту
-        setInterval(checkDayChange, 60000);
+            // Готовность к платежам
+            Telegram.WebApp.onEvent('invoiceClosed', (event) => {
+                if (event.status === 'paid') {
+                    showNotification('Платёж успешно завершён!');
+                }
+            });
+        }
+
+        initTelegramIntegration();
     </script>
 </body>
 </html>
