@@ -1,34 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My White App</title>
+    <title>Burger Emoji Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- ДОБАВЬТЕ ЭТОТ МЕТА-ТЕГ -->
     <meta http-equiv="Content-Security-Policy" content="frame-ancestors https://web.telegram.org;">
 
     <style>
         body {
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
+
         .white-block {
-            width: 300px;
-            height: 300px;
+            width: 100%;
+            max-width: 320px;
             background-color: #FFFFFF;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+        }
+
+        .burger-emoji {
+            font-size: 80px;
+            margin: 20px 0;
+            display: block;
+        }
+
+        .emoji-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .emoji-description {
+            font-size: 16px;
+            color: #666;
+            margin: 10px 0 20px 0;
+            line-height: 1.4;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #E44D26;
+            margin: 15px 0;
+        }
+
+        .buy-button {
+            background: linear-gradient(135deg, #E44D26, #F16529);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(228, 77, 38, 0.3);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(228, 77, 38, 0.4);
+        }
+
+        .buy-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(228, 77, 38, 0.3);
+        }
+
+        .features {
+            text-align: left;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .features li {
+            margin: 8px 0;
+            padding-left: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="white-block"></div>
+    <div class="white-block">
+        <span class="burger-emoji">🍔</span>
+        <div class="emoji-title">Burger Emoji</div>
+        <div class="emoji-description">Премиальный смайлик бургера для ваших чатов</div>
+        <div class="price">99 ₽</div>
+    </div>
+
+    <button class="buy-button" onclick="buyEmoji()">КУПИТЬ</button>
+
+    <div class="white-block">
+        <div class="features">
+            <strong>Особенности смайлика:</strong>
+            <ul>
+                <li>Высокое качество изображения</li>
+                <li>Подходит для всех платформ</li>
+                <li>Безлимитное использование</li>
+                <li>Автоматическое обновление</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+        function buyEmoji() {
+            // В реальном приложении здесь будет вызов Telegram Mini Apps API для платежей
+            alert('Спасибо за покупку! Смайлик 🍔 добавлен в вашу коллекцию!');
+
+            // Пример интеграции с Telegram Payments (закомментировано для демо)
+            /*
+            Telegram.WebApp.openInvoice(
+                'your_invoice_link_here',
+                function(status) {
+                    if (status === 'paid') {
+                        alert('Покупка успешно завершена!');
+                    }
+                }
+            );
+            */
+        }
+
+        // Адаптация под тему Telegram
+        function updateTheme() {
+            if (Telegram.WebApp.colorScheme === 'dark') {
+                document.body.style.backgroundColor = '#1c1c1c';
+                document.body.style.color = '#ffffff';
+            } else {
+                document.body.style.backgroundColor = '#f0f0f0';
+                document.body.style.color = '#000000';
+            }
+        }
+
+        updateTheme();
+        Telegram.WebApp.onEvent('themeChanged', updateTheme);
+    </script>
 </body>
 </html>
-
 
